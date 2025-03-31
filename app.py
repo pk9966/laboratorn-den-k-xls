@@ -27,11 +27,7 @@ lab_file = st.file_uploader("Nahraj laboratorní deník (Evidence zkoušek zhoto
 xlsx_file = st.file_uploader("Nahraj soubor Klíč.xlsx", type="xlsx")
 
 def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
-    st.markdown("---")
-    st.markdown(f"🔍 **Konstrukce:** `{konstrukce}`")
-    st.markdown(f"🔍 **Zkoušky:** `{zkouska_raw}`")
-    st.markdown(f"🔍 **Staničení:** `{stanice_raw}`")
-    druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
+        druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
     staniceni = [s.strip().lower() for s in str(stanice_raw).split(",") if s.strip()]
     match_count = 0
 
@@ -62,9 +58,7 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
 
         if konstrukce_ok and zkouska_ok and stanice_ok:
             match_count += 1
-            st.markdown(f"✅ **Shoda nalezena:** `{text_row.strip()}`")
-        
-    st.markdown(f"**Celkem nalezeno:** `{match_count}` záznamů")
+            
     return match_count
 
 
