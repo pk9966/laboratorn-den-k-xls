@@ -13,7 +13,8 @@ st.title("Vyhodnocení laboratorního deníku")
 
 xlsx_file = st.file_uploader("Nahraj soubor Klíč.xlsx", type="xlsx")
 
-
+def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
+    st.markdown("---")
     st.markdown(f"🔍 **Konstrukce:** `{konstrukce}`")
     st.markdown(f"🔍 **Zkoušky:** `{zkouska_raw}`")
     st.markdown(f"🔍 **Staničení:** `{stanice_raw}`")
