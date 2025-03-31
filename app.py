@@ -42,10 +42,6 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
         stanice_ok = any(s in text_row for s in staniceni)
         zkouska_ok = any(z in text_row for z in druhy_zk)
 
-        : `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
-"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
-        ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
 "
             f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
         ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
