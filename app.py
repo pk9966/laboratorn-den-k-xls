@@ -32,8 +32,8 @@ def contains_similar(text, keyword, threshold=0.4):
     return similar(text, keyword) >= threshold
 
 def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
-    st.markdown(f"---
-🔍 **Konstrukce:** `{konstrukce}`")
+    st.markdown("---")
+    st.markdown(f"🔍 **Konstrukce:** `{konstrukce}`")
     st.markdown(f"🔍 **Zkoušky:** `{zkouska_raw}`")
     st.markdown(f"🔍 **Staničení:** `{stanice_raw}`")
     druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
