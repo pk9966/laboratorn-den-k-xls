@@ -1,78 +1,80 @@
-import streamlit as st
-st.set_page_config(page_title="Vyhodnocení laboratorního deníku")
-st.write("Streamlit import OK")
-import pandas as pd
-st.write("Pandas import OK")
-import io
-st.write("io import OK")
-from openpyxl import load_workbook
-st.write("openpyxl import OK")
-
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
 from difflib import SequenceMatcher
 
-def similar(a, b):
-    return SequenceMatcher(None, a, b).ratio()
-
-def contains_similar(text, keyword, threshold=0.4):
-    text = text.lower()
-    keyword = keyword.lower()
-    if keyword in text:
-        return True
-    return similar(text, keyword) >= threshold
-from difflib import SequenceMatcher
-
-st.title("Vyhodnocení laboratorního deníku")
-
-lab_file = st.file_uploader("Nahraj laboratorní deník (Evidence zkoušek zhotovitele)", type="xlsx")
-xlsx_file = st.file_uploader("Nahraj soubor Klíč.xlsx", type="xlsx")
-
-def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
-    st.markdown("---")
-    st.markdown(f"🔍 **Konstrukce:** `{konstrukce}`")
-    st.markdown(f"🔍 **Zkoušky:** `{zkouska_raw}`")
-    st.markdown(f"🔍 **Staničení:** `{stanice_raw}`")
-    druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
-    staniceni = [s.strip().lower() for s in str(stanice_raw).split(",") if s.strip()]
-    match_count = 0
-
-    for index, row in df.iterrows():
-        st.markdown(f"📄 **Řádek {index + 2}**: " + " | ".join(str(v) for v in row.values if pd.notna(v)))
-        text_row = " ".join(str(v).lower() for v in row.values if pd.notna(v))
-        konstrukce_ok = contains_similar(text_row, konstrukce)
-        stanice_ok = any(s in text_row for s in staniceni)
-        zkouska_ok = any(z in text_row for z in druhy_zk)
-
-        debug_status = (
-            f"⛔ *Detail selhání:*\n"
-            f"• Konstrukce: `{konstrukce}` ➝ {'✅' if konstrukce_ok else '❌'}\n"
-            f"• Zkouška(y): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}\n"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}")
-
-        if konstrukce_ok and zkouska_ok and stanice_ok:
-            match_count += 1
-            st.markdown(f"✅ **Shoda nalezena:** `{text_row.strip()}`")
-        else:
-            st.markdown(f"{debug_status} → `{text_row.strip()}`")
-    st.markdown(f"**Celkem nalezeno:** `{match_count}` záznamů")
-    return match_count
-
-
-def process_op_sheet(key_df, target_df):
-    if "D" not in target_df.columns:
-        target_df["D"] = 0
-    if "E" not in target_df.columns:
-        target_df["E"] = ""
-    for i in range(1, len(target_df)):
-        row = target_df.iloc[i]
-        zasyp = str(row.iloc[0])
-        if pd.isna(zasyp):
-            continue
-        matches = key_df[key_df.iloc[:, 0] == zasyp]
-        total_count = 0
-        for _, mrow in matches.iterrows():
-            konstrukce = mrow.get("konstrukční prvek", "")
-            zkouska = mrow.get("druh zkoušky", "")
-            stanice = mrow.get("staničení", "")
             if konstrukce and zkouska and stanice:
                 total_count += count_matches_advanced(lab_df, konstrukce, zkouska, stanice)
         target_df.at[i, "D"] = total_count
