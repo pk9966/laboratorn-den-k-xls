@@ -27,7 +27,7 @@ lab_file = st.file_uploader("Nahraj laboratorní deník (Evidence zkoušek zhoto
 xlsx_file = st.file_uploader("Nahraj soubor Klíč.xlsx", type="xlsx")
 
 def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
-            druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
+    druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
     staniceni = [s.strip().lower() for s in str(stanice_raw).split(",") if s.strip()]
     match_count = 0
 
@@ -38,27 +38,6 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
         stanice_ok = any(s in text_row for s in staniceni)
         zkouska_ok = any(z in text_row for z in druhy_zk)
 
-"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
-        ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
-"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
-        ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
-"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
-        ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
-"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
-        ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
-"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
-        ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
-"
-            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}")
-
-        if konstrukce_ok and zkouska_ok and stanice_ok:
-            match_count += 1
-            
     return match_count
 
 
