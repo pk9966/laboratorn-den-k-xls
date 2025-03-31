@@ -11,6 +11,7 @@ from difflib import SequenceMatcher
 
 st.title("Vyhodnocení laboratorního deníku")
 
+lab_file = st.file_uploader("Nahraj laboratorní deník (Evidence zkoušek zhotovitele)", type="xlsx")
 xlsx_file = st.file_uploader("Nahraj soubor Klíč.xlsx", type="xlsx")
 
 def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
@@ -77,9 +78,9 @@ def process_cely_objekt_sheet(key_df, target_df, lab_text):
             target_df.at[i, "D"] = "Vyhovující" if count >= pozadovano else f"Chybí {abs(int(pozadovano - count))} zk."
     return target_df
 
-if xlsx_file:
-    st.subheader("📄 PDF nebude použit — načítám data pouze z Excelu")
-    lab_df = load_sheet_df("Evidence zkoušek zhotovitele")
+if lab_file and xlsx_file:
+    lab_bytes = lab_file.read()
+    lab_df = pd.read_excel(io.BytesIO(lab_bytes), sheet_name="Evidence zkoušek zhotovitele")
 
     try:
         xlsx_bytes = xlsx_file.read()
