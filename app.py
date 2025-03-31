@@ -40,7 +40,7 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
     return match_count
 
 
-def process_op_sheet(key_df, target_df, lab_text):
+def process_op_sheet(key_df, target_df):
     if "D" not in target_df.columns:
         target_df["D"] = 0
     if "E" not in target_df.columns:
@@ -65,7 +65,7 @@ def process_op_sheet(key_df, target_df, lab_text):
     return target_df
 
 
-def process_cely_objekt_sheet(key_df, target_df, lab_text):
+def process_cely_objekt_sheet(key_df, target_df):
     for i, row in target_df.iterrows():
         material = row.get("materiál")
         zkouska = row.get("druh zkoušky")
@@ -109,7 +109,7 @@ if lab_file and xlsx_file:
         for sheet_name, key_df in sheet_targets:
             if sheet_exists(sheet_name) and not key_df.empty:
                 df = load_sheet_df(sheet_name)
-                processed = process_cely_objekt_sheet(key_df, df, lab_text) if "Celý objekt" in sheet_name else process_op_sheet(key_df, df, lab_text)
+                processed = process_cely_objekt_sheet(key_df, df) if "Celý objekt" in sheet_name else process_op_sheet(key_df, df)
                 ws = workbook[sheet_name]
                 for i, row in processed.iterrows():
                     if "D" in processed.columns:
