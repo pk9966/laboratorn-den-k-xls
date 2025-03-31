@@ -36,14 +36,17 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
     match_count = 0
 
     for index, row in df.iterrows():
-        st.text("
-📄 Řádek {}: {}".format(index + 2, " | ".join(str(v) for v in row.values if pd.notna(v)))) for v in row.values if pd.notna(v)))
+        st.markdown(f"📄 **Řádek {index + 2}**: " + " | ".join(str(v) for v in row.values if pd.notna(v)))
         text_row = " ".join(str(v).lower() for v in row.values if pd.notna(v))
         konstrukce_ok = contains_similar(text_row, konstrukce)
         stanice_ok = any(s in text_row for s in staniceni)
         zkouska_ok = any(z in text_row for z in druhy_zk)
 
-        debug_status = f"⛔ | konstrukce_ok={konstrukce_ok}, zkouska_ok={zkouska_ok}, stanice_ok={stanice_ok}"
+        debug_status = (
+            f"⛔ *Detail selhání:*\n"
+            f"• Konstrukce: `{konstrukce}` ➝ {'✅' if konstrukce_ok else '❌'}\n"
+            f"• Zkouška(y): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}\n"
+            f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}")
 
         if konstrukce_ok and zkouska_ok and stanice_ok:
             match_count += 1
