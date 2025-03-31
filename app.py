@@ -42,12 +42,7 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
         stanice_ok = any(s in text_row for s in staniceni)
         zkouska_ok = any(z in text_row for z in druhy_zk)
 
-        debug_status = (
-            f"⛔ *Detail selhání:*
-"
-            f"• Konstrukce: `{konstrukce}` ➝ {'✅' if konstrukce_ok else '❌'}
-"
-            f"• Zkouška(y): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
+        : `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
 "
             f"• Staničení: `{stanice_raw}` ➝ {'✅' if stanice_ok else '❌'}"
         ): `{zkouska_raw}` ➝ {'✅' if zkouska_ok else '❌'}
@@ -72,8 +67,7 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
         if konstrukce_ok and zkouska_ok and stanice_ok:
             match_count += 1
             st.markdown(f"✅ **Shoda nalezena:** `{text_row.strip()}`")
-        else:
-            st.markdown(f"{debug_status} → `{text_row.strip()}`")
+        
     st.markdown(f"**Celkem nalezeno:** `{match_count}` záznamů")
     return match_count
 
