@@ -3,8 +3,6 @@ st.set_page_config(page_title="Vyhodnocení laboratorního deníku")
 st.write("Streamlit import OK")
 import pandas as pd
 st.write("Pandas import OK")
-import fitz  # PyMuPDF
-st.write("fitz (PyMuPDF) import OK")
 import io
 st.write("io import OK")
 from openpyxl import load_workbook
@@ -13,26 +11,9 @@ from difflib import SequenceMatcher
 
 st.title("Vyhodnocení laboratorního deníku")
 
-pdf_file = st.file_uploader("Nahraj laboratorní deník (PDF)", type="pdf")
 xlsx_file = st.file_uploader("Nahraj soubor Klíč.xlsx", type="xlsx")
 
-def extract_text_from_pdf(file):
-    with fitz.open(stream=file.read(), filetype="pdf") as doc:
-        return "\n".join([page.get_text() for page in doc])
 
-
-def similar(a, b):
-    return SequenceMatcher(None, a, b).ratio()
-
-def contains_similar(text, keyword, threshold=0.4):
-    text = text.lower()
-    keyword = keyword.lower()
-    if keyword in text:
-        return True
-    return similar(text, keyword) >= threshold
-
-def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
-    st.markdown("---")
     st.markdown(f"🔍 **Konstrukce:** `{konstrukce}`")
     st.markdown(f"🔍 **Zkoušky:** `{zkouska_raw}`")
     st.markdown(f"🔍 **Staničení:** `{stanice_raw}`")
@@ -97,7 +78,7 @@ def process_cely_objekt_sheet(key_df, target_df, lab_text):
 
 if xlsx_file:
     st.subheader("📄 PDF nebude použit — načítám data pouze z Excelu")
-    lab_df = load_sheet_df("Laboratorní deník")
+    lab_df = load_sheet_df("Evidence zkoušek zhotovitele")
 
     try:
         xlsx_bytes = xlsx_file.read()
