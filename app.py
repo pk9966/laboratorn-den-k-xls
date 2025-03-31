@@ -27,7 +27,7 @@ lab_file = st.file_uploader("Nahraj laboratorní deník (Evidence zkoušek zhoto
 xlsx_file = st.file_uploader("Nahraj soubor Klíč.xlsx", type="xlsx")
 
 def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
-        druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
+            druhy_zk = [z.strip().lower() for z in str(zkouska_raw).split(",") if z.strip()]
     staniceni = [s.strip().lower() for s in str(stanice_raw).split(",") if s.strip()]
     match_count = 0
 
