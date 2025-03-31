@@ -35,7 +35,9 @@ def count_matches_advanced(df, konstrukce, zkouska_raw, stanice_raw):
     staniceni = [s.strip().lower() for s in str(stanice_raw).split(",") if s.strip()]
     match_count = 0
 
-    for _, row in df.iterrows():
+    for index, row in df.iterrows():
+        st.text(f"
+📄 Řádek {index + 2}: " + " | ".join(str(v) for v in row.values if pd.notna(v)))
         text_row = " ".join(str(v).lower() for v in row.values if pd.notna(v))
         konstrukce_ok = contains_similar(text_row, konstrukce)
         stanice_ok = any(s in text_row for s in staniceni)
